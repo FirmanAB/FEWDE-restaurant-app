@@ -5,6 +5,7 @@ const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const ImageminWebpackPlugin = require('imagemin-webpack-plugin').default;
 const ImageminMozjpeg = require('imagemin-mozjpeg');
 const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/scripts/index.js'),
@@ -62,6 +63,7 @@ module.exports = {
       template: path.resolve(__dirname, 'src/templates/index.html'),
       filename: 'index.html',
     }),
+    new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {
