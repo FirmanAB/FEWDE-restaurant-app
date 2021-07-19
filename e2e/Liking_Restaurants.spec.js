@@ -12,7 +12,7 @@ Scenario('showing empty liked restaurants', (I) => {
   I.see('Tidak ada restaurant untuk ditampilkan', '.restaurant-item__not__found');
 });
 
-/*
+
 Scenario('liking one restaurant', async (I) => {
   I.see('Tidak ada restaurant untuk ditampilkan', '.restaurant-item__not__found');
 
@@ -33,7 +33,37 @@ Scenario('liking one restaurant', async (I) => {
 
   assert.strictEqual(firstRestaurantTitle, likedRestaurantTitle);
 });
-*/
+
+Scenario('unliking one restaurant', async (I) => {
+  // go to homepage
+  I.amOnPage('/');
+
+  I.seeElement('.restaurant__title a');
+  I.click(locate('.restaurant__title a').first());
+
+  I.seeElement('#likeButton');
+  I.click('#likeButton');
+
+  // go to like page
+  I.amOnPage('/#/like');
+  I.seeElement('.restaurant-item');
+  const firstLikedRestaurantUrl = locate('.restaurant__title a').first();
+  const firstLikedRestaurantTitle = await I.grabTextFrom('.restaurant__title');
+
+  //go to detail page
+  I.click(firstLikedRestaurantUrl);
+  I.seeElement('.restaurant__title');
+  const detailLikedRestaurantTitle = await I.grabTextFrom('.restaurant__title');
+  assert.strictEqual(firstLikedRestaurantTitle, detailLikedRestaurantTitle);
+
+  I.seeElement('#likeButton');
+  I.click('#likeButton');
+
+  // go to like page to validate unlike action
+  I.amOnPage('/#/like');
+  I.see('Tidak ada restaurant untuk ditampilkan', '.restaurant-item__not__found');
+});
+
 Scenario('searching restaurants', async (I) => {
   I.see('Tidak ada restaurant untuk ditampilkan', '.restaurant-item__not__found');
 
